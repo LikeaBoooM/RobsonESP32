@@ -85,26 +85,20 @@ delay(0);
 
 
 
-
-//Task2code: blinks an LED every 700 ms
 void Task2code( void * pvParameters ){
   Serial.print("Task2 running on core ");
   Serial.println(xPortGetCoreID());
 
   for(;;){
-   // while(Serial2.available())
-      
     wage = get_waga();
     Serial.println(wage.toInt());
     delay(1000);
   }
-
 }
  
 void loop() {
 
   czytaj();
-// delay(100000);
 }
 
 void czytaj()
@@ -121,7 +115,6 @@ void czytaj()
     String produkt = "";
     String waga_netto = "";
 ////////////////////////////////////////////////////////////////////////////////////////////////////////
-
  
  for (byte i = 0; i < 6; i++) key.keyByte[i] = 0xFF;
  
@@ -130,18 +123,12 @@ void czytaj()
  if ( ! mfrc522.PICC_ReadCardSerial())
         return;
 
-    
   for (byte i = 0; i < mfrc522.uid.size; i++) 
   {
      id.concat(String(mfrc522.uid.uidByte[i] < 0x10 ? " 0" : ""));
      id.concat(String(mfrc522.uid.uidByte[i], HEX));
   }
     
-
-  //  Serial.print(F("UID:"));
-   // dump_byte_array(mfrc522.uid.uidByte, mfrc522.uid.size);
-  //  Serial.println();
- 
     MFRC522::PICC_Type piccType = mfrc522.PICC_GetType(mfrc522.uid.sak);
 
     // Sprawdzenie kompatybilności
@@ -152,9 +139,7 @@ void czytaj()
         return;
     }
     
-
-    //Serial.println(F("Autoryzacja"));
-    status = (MFRC522::StatusCode) mfrc522.PCD_Authenticate(MFRC522::PICC_CMD_MF_AUTH_KEY_A, 7, &key, &(mfrc522.uid));
+   status = (MFRC522::StatusCode) mfrc522.PCD_Authenticate(MFRC522::PICC_CMD_MF_AUTH_KEY_A, 7, &key, &(mfrc522.uid));
     if (status != MFRC522::STATUS_OK) {
         Serial.print(F("PCD_Authenticate() failed: "));
         Serial.println(mfrc522.GetStatusCodeName(status));
@@ -166,23 +151,13 @@ void czytaj()
         Serial.print(F("MIFARE_Read() failed: "));
         Serial.println(mfrc522.GetStatusCodeName(status));
     }
-    //Serial.print(F("Data in block ")); Serial.print(4); Serial.println(F(":"));
-    //dump_byte_array(buffer, 16); Serial.println();
-    //Serial.println();
-
-
+   
   for(int i=0; i < (size -3) ; i++)
   {
   przewoznik.concat((char)buffer[i]);
   }
   
-
-////////////////////////////////////////////////////////////////////////////////////////////////////////
-
-
-
-    //Serial.println(F("Autoryzacja"));
-    status = (MFRC522::StatusCode) mfrc522.PCD_Authenticate(MFRC522::PICC_CMD_MF_AUTH_KEY_A, 7, &key, &(mfrc522.uid));
+  status = (MFRC522::StatusCode) mfrc522.PCD_Authenticate(MFRC522::PICC_CMD_MF_AUTH_KEY_A, 7, &key, &(mfrc522.uid));
     if (status != MFRC522::STATUS_OK) {
         Serial.print(F("PCD_Authenticate() failed: "));
         Serial.println(mfrc522.GetStatusCodeName(status));
@@ -194,18 +169,13 @@ void czytaj()
         Serial.print(F("MIFARE_Read() failed: "));
         Serial.println(mfrc522.GetStatusCodeName(status));
     }
-    //Serial.print(F("Data in block ")); Serial.print(5); Serial.println(F(":"));
-    //dump_byte_array(buffer, 16); Serial.println();
-    //Serial.println();
-
-  for(int j=0; j < (size -3) ; j++)
+ 
+ for(int j=0; j < (size -3) ; j++)
   {
   rejestracja.concat((char)buffer[j]);
   }
-  
-
+ 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////
-
 
     status = (MFRC522::StatusCode) mfrc522.PCD_Authenticate(MFRC522::PICC_CMD_MF_AUTH_KEY_A, 7, &key, &(mfrc522.uid));
     if (status != MFRC522::STATUS_OK) {
@@ -270,9 +240,6 @@ void czytaj()
         Serial.print(F("MIFARE_Read() failed: "));
         Serial.println(mfrc522.GetStatusCodeName(status));
     }
-    //Serial.print(F("Data in block ")); Serial.print(9); Serial.println(F(":"));
-    //dump_byte_array(buffer, 16); Serial.println();
-    //Serial.println();
     
   for(int m=0; m < (size -3) ; m++)
   {
@@ -285,12 +252,7 @@ void czytaj()
   mfrc522.PICC_HaltA();
   mfrc522.PCD_StopCrypto1();
 
- 
-
-  
   waga_netto = (int)wage.toInt() - (int)tara.toInt();
-
-  
   /////////////////////////////////////////////////////////////////////////////////////////
   Serial.print("Id karty: ");
   Serial.println(id);
@@ -322,11 +284,7 @@ void czytaj()
  
   //POSTDodawanieTankowania(id, rejestracja, "testowy");
   //POSTRequestOdbiory(rejestracja,2);
-////////////////////////////////////////////////////////////////////////////////////////////////////////
-
 }
-
-
 
 String GETIloscPaliwaNaKarciePoID(String cardId) {
   HTTPClient http;

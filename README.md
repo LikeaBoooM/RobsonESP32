@@ -1,1 +1,2 @@
 # RobsonESP32
+I created a system consisting of an ESP32 module that connects the truck scale interface with a microcontroller via the UART interface and a modules using RFID cards. I also created a web application and API for the above system, which is used by the ESP32 microcontroller. The idea of the whole project was to speed up data transfer between the sand mines and the company administration. I have developed many projects with this company but the above one is one of the biggest and I continue to support them.
